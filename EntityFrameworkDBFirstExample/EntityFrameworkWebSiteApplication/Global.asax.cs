@@ -1,4 +1,6 @@
-﻿using System;
+﻿using EntityFrameworkWebSiteApplication.App_Start;
+using Microsoft.Extensions.DependencyInjection;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -10,12 +12,25 @@ namespace EntityFrameworkWebSiteApplication
 {
     public class MvcApplication : System.Web.HttpApplication
     {
+        private IServiceProvider _serviceProvider;
         protected void Application_Start()
         {
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+
+            IServiceCollection services = new ServiceCollection();
+            ServicesConfiguration(services);
+
+            _serviceProvider = services.BuildServiceProvider();
+
+            DependencyResolver.SetResolver(new MyDependencyResolver(_serviceProvider));
+        }
+
+        private void ServicesConfiguration(IServiceCollection services)
+        {
+
         }
     }
 }
