@@ -1,4 +1,8 @@
-﻿using EntityFrameworkWebSiteApplication.App_Start;
+﻿using EntityFrameworkApplication.Interfaces;
+using EntityFrameworkInfrastructure.DataBaseModel;
+using EntityFrameworkInfrastructure.Repositories;
+using EntityFrameworkWebSiteApplication.App_Start;
+using EntityFrameworkWebSiteApplication.Controllers;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -30,7 +34,10 @@ namespace EntityFrameworkWebSiteApplication
 
         private void ServicesConfiguration(IServiceCollection services)
         {
+            services.AddTransient<HomeController>();
+            services.AddTransient<websitedatabase>();
 
+            services.AddScoped<IContactRepository, ContactRepository>();
         }
     }
 }
