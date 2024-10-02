@@ -1,0 +1,313 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="websitedatabaseModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="contact">
+          <Key>
+            <PropertyRef Name="id_contact" />
+          </Key>
+          <Property Name="id_contact" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="id_contact_type" Type="int" />
+          <Property Name="contact" Type="nvarchar" MaxLength="50" />
+          <Property Name="contact_name" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="contact_type">
+          <Key>
+            <PropertyRef Name="id_contact_type" />
+          </Key>
+          <Property Name="id_contact_type" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="contact_type_description" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="menu_item">
+          <Key>
+            <PropertyRef Name="id_menu_item" />
+          </Key>
+          <Property Name="id_menu_item" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="menu_item_text" Type="nvarchar" MaxLength="50" />
+          <Property Name="menu_item_description" Type="nvarchar" MaxLength="150" />
+        </EntityType>
+        <EntityType Name="page_sub_title">
+          <Key>
+            <PropertyRef Name="id_page_subtitle" />
+          </Key>
+          <Property Name="id_page_subtitle" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="id_page_title" Type="int" />
+          <Property Name="subtitle" Type="nvarchar" MaxLength="50" />
+          <Property Name="subtitle_description" Type="nvarchar" MaxLength="300" />
+          <Property Name="button_link_text" Type="nvarchar" MaxLength="50" />
+          <Property Name="linkUrl" Type="nvarchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="page_title">
+          <Key>
+            <PropertyRef Name="id_page_title" />
+          </Key>
+          <Property Name="id_page_title" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="title" Type="nvarchar" MaxLength="50" />
+          <Property Name="title_description" Type="nvarchar" MaxLength="200" />
+          <Property Name="button_link_text" Type="nvarchar" MaxLength="50" />
+          <Property Name="linkUrl" Type="nvarchar" MaxLength="100" />
+          <Property Name="id_menu_item" Type="int" />
+        </EntityType>
+        <Association Name="fk_contacttype">
+          <End Role="contact_type" Type="Self.contact_type" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="contact" Type="Self.contact" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="contact_type">
+              <PropertyRef Name="id_contact_type" />
+            </Principal>
+            <Dependent Role="contact">
+              <PropertyRef Name="id_contact_type" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_menuitem">
+          <End Role="menu_item" Type="Self.menu_item" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="page_title" Type="Self.page_title" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="menu_item">
+              <PropertyRef Name="id_menu_item" />
+            </Principal>
+            <Dependent Role="page_title">
+              <PropertyRef Name="id_menu_item" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_page_title">
+          <End Role="page_title" Type="Self.page_title" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="page_sub_title" Type="Self.page_sub_title" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="page_title">
+              <PropertyRef Name="id_page_title" />
+            </Principal>
+            <Dependent Role="page_sub_title">
+              <PropertyRef Name="id_page_title" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="websitedatabaseModelStoreContainer">
+          <EntitySet Name="contact" EntityType="Self.contact" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="contact_type" EntityType="Self.contact_type" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="menu_item" EntityType="Self.menu_item" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="page_sub_title" EntityType="Self.page_sub_title" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="page_title" EntityType="Self.page_title" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="fk_contacttype" Association="Self.fk_contacttype">
+            <End Role="contact_type" EntitySet="contact_type" />
+            <End Role="contact" EntitySet="contact" />
+          </AssociationSet>
+          <AssociationSet Name="fk_menuitem" Association="Self.fk_menuitem">
+            <End Role="menu_item" EntitySet="menu_item" />
+            <End Role="page_title" EntitySet="page_title" />
+          </AssociationSet>
+          <AssociationSet Name="fk_page_title" Association="Self.fk_page_title">
+            <End Role="page_title" EntitySet="page_title" />
+            <End Role="page_sub_title" EntitySet="page_sub_title" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="websitedatabaseModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="contact">
+          <Key>
+            <PropertyRef Name="id_contact" />
+          </Key>
+          <Property Name="id_contact" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id_contact_type" Type="Int32" />
+          <Property Name="contact1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="contact_name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="contact_type" Relationship="Self.fk_contacttype" FromRole="contact" ToRole="contact_type" />
+        </EntityType>
+        <EntityType Name="contact_type">
+          <Key>
+            <PropertyRef Name="id_contact_type" />
+          </Key>
+          <Property Name="id_contact_type" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="contact_type_description" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="contact" Relationship="Self.fk_contacttype" FromRole="contact_type" ToRole="contact" />
+        </EntityType>
+        <EntityType Name="menu_item">
+          <Key>
+            <PropertyRef Name="id_menu_item" />
+          </Key>
+          <Property Name="id_menu_item" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="menu_item_text" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="menu_item_description" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="page_title" Relationship="Self.fk_menuitem" FromRole="menu_item" ToRole="page_title" />
+        </EntityType>
+        <EntityType Name="page_sub_title">
+          <Key>
+            <PropertyRef Name="id_page_subtitle" />
+          </Key>
+          <Property Name="id_page_subtitle" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id_page_title" Type="Int32" />
+          <Property Name="subtitle" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="subtitle_description" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
+          <Property Name="button_link_text" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="linkUrl" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="page_title" Relationship="Self.fk_page_title" FromRole="page_sub_title" ToRole="page_title" />
+        </EntityType>
+        <EntityType Name="page_title">
+          <Key>
+            <PropertyRef Name="id_page_title" />
+          </Key>
+          <Property Name="id_page_title" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="title" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="title_description" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="button_link_text" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="linkUrl" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="id_menu_item" Type="Int32" />
+          <NavigationProperty Name="menu_item" Relationship="Self.fk_menuitem" FromRole="page_title" ToRole="menu_item" />
+          <NavigationProperty Name="page_sub_title" Relationship="Self.fk_page_title" FromRole="page_title" ToRole="page_sub_title" />
+        </EntityType>
+        <Association Name="fk_contacttype">
+          <End Role="contact_type" Type="Self.contact_type" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="contact" Type="Self.contact" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="contact_type">
+              <PropertyRef Name="id_contact_type" />
+            </Principal>
+            <Dependent Role="contact">
+              <PropertyRef Name="id_contact_type" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_menuitem">
+          <End Role="menu_item" Type="Self.menu_item" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="page_title" Type="Self.page_title" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="menu_item">
+              <PropertyRef Name="id_menu_item" />
+            </Principal>
+            <Dependent Role="page_title">
+              <PropertyRef Name="id_menu_item" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_page_title">
+          <End Role="page_title" Type="Self.page_title" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="page_sub_title" Type="Self.page_sub_title" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="page_title">
+              <PropertyRef Name="id_page_title" />
+            </Principal>
+            <Dependent Role="page_sub_title">
+              <PropertyRef Name="id_page_title" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="websitedatabase" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="contact" EntityType="Self.contact" />
+          <EntitySet Name="contact_type" EntityType="Self.contact_type" />
+          <EntitySet Name="menu_item" EntityType="Self.menu_item" />
+          <EntitySet Name="page_sub_title" EntityType="Self.page_sub_title" />
+          <EntitySet Name="page_title" EntityType="Self.page_title" />
+          <AssociationSet Name="fk_contacttype" Association="Self.fk_contacttype">
+            <End Role="contact_type" EntitySet="contact_type" />
+            <End Role="contact" EntitySet="contact" />
+          </AssociationSet>
+          <AssociationSet Name="fk_menuitem" Association="Self.fk_menuitem">
+            <End Role="menu_item" EntitySet="menu_item" />
+            <End Role="page_title" EntitySet="page_title" />
+          </AssociationSet>
+          <AssociationSet Name="fk_page_title" Association="Self.fk_page_title">
+            <End Role="page_title" EntitySet="page_title" />
+            <End Role="page_sub_title" EntitySet="page_sub_title" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="websitedatabaseModelStoreContainer" CdmEntityContainer="websitedatabase">
+          <EntitySetMapping Name="contact">
+            <EntityTypeMapping TypeName="websitedatabaseModel.contact">
+              <MappingFragment StoreEntitySet="contact">
+                <ScalarProperty Name="id_contact" ColumnName="id_contact" />
+                <ScalarProperty Name="id_contact_type" ColumnName="id_contact_type" />
+                <ScalarProperty Name="contact1" ColumnName="contact" />
+                <ScalarProperty Name="contact_name" ColumnName="contact_name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="contact_type">
+            <EntityTypeMapping TypeName="websitedatabaseModel.contact_type">
+              <MappingFragment StoreEntitySet="contact_type">
+                <ScalarProperty Name="id_contact_type" ColumnName="id_contact_type" />
+                <ScalarProperty Name="contact_type_description" ColumnName="contact_type_description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="menu_item">
+            <EntityTypeMapping TypeName="websitedatabaseModel.menu_item">
+              <MappingFragment StoreEntitySet="menu_item">
+                <ScalarProperty Name="id_menu_item" ColumnName="id_menu_item" />
+                <ScalarProperty Name="menu_item_text" ColumnName="menu_item_text" />
+                <ScalarProperty Name="menu_item_description" ColumnName="menu_item_description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="page_sub_title">
+            <EntityTypeMapping TypeName="websitedatabaseModel.page_sub_title">
+              <MappingFragment StoreEntitySet="page_sub_title">
+                <ScalarProperty Name="id_page_subtitle" ColumnName="id_page_subtitle" />
+                <ScalarProperty Name="id_page_title" ColumnName="id_page_title" />
+                <ScalarProperty Name="subtitle" ColumnName="subtitle" />
+                <ScalarProperty Name="subtitle_description" ColumnName="subtitle_description" />
+                <ScalarProperty Name="button_link_text" ColumnName="button_link_text" />
+                <ScalarProperty Name="linkUrl" ColumnName="linkUrl" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="page_title">
+            <EntityTypeMapping TypeName="websitedatabaseModel.page_title">
+              <MappingFragment StoreEntitySet="page_title">
+                <ScalarProperty Name="id_page_title" ColumnName="id_page_title" />
+                <ScalarProperty Name="title" ColumnName="title" />
+                <ScalarProperty Name="title_description" ColumnName="title_description" />
+                <ScalarProperty Name="button_link_text" ColumnName="button_link_text" />
+                <ScalarProperty Name="linkUrl" ColumnName="linkUrl" />
+                <ScalarProperty Name="id_menu_item" ColumnName="id_menu_item" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
