@@ -1,8 +1,5 @@
 ﻿using EntityFrameworkApplication.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+using EntityFrameworkWebSiteApplication.ViewModels;
 using System.Web.Mvc;
 
 namespace EntityFrameworkWebSiteApplication.Controllers
@@ -31,9 +28,14 @@ namespace EntityFrameworkWebSiteApplication.Controllers
         public ActionResult Contact()
         {
             var contacts = _contactRepository.GetAll();
-            ViewBag.Message = "Your contact page.";
+            var vm = new ContactViewModel
+            {
+                Contacts = contacts,
+                Message = "Your contact page.",
+                Title = "Contacts",
+            };
 
-            return View();
+            return View(vm);
         }
     }
 }

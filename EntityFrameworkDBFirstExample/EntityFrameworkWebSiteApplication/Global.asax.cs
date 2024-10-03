@@ -35,8 +35,8 @@ namespace EntityFrameworkWebSiteApplication
         private void ServicesConfiguration(IServiceCollection services)
         {
             services.AddTransient<HomeController>();
-            services.AddTransient<websitedatabase>();
 
+            services.AddScoped<websitedatabase>();
             services.AddScoped<IContactRepository, ContactRepository>();
         }
     }

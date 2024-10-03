@@ -15,18 +15,26 @@ namespace EntityFrameworkInfrastructure.Repositories
         {
             _context = context;
         }
+
         public IEnumerable<ContactDTO> GetAll()
         {
-            try
+            var contacts = _context.contact.Select(x => x).ToList();
+                        
+            var contactDTOs = new List<ContactDTO>();
+
+            foreach (var contact in contacts)
             {
-                var contacts = _context.contact.Select(x => x).ToList();
+                var dto = new ContactDTO
+                {
+                    IdContact = contact.id_contact,
+                    IdContactType = contact.id_contact_type ?? 0,
+                    Contact = contact.contact1,
+                    ContactName = contact.contact_name
+                };
+                contactDTOs.Add(dto);
             }
-            catch (Exception e)
-            { 
-                throw new Exception("cannot get contact data from database", e);
-            }
-            
-            return Enumerable.Empty<ContactDTO>();
+
+            return contactDTOs;
         }
     }
 }
